@@ -11,6 +11,7 @@
             background-color: #f4f4f9;
             color: #333;
             line-height: 1.6;
+            transition: background-color 0.3s, color 0.3s;
         }
 
         header {
@@ -31,6 +32,11 @@
 
         .cart {
             font-size: 18px;
+        }
+
+        .theme-switch {
+            margin-left: 20px;
+            cursor: pointer;
         }
 
         .video-list {
@@ -150,6 +156,45 @@
             font-weight: bold;
             margin-top: 10px;
         }
+
+        /* Dark mode styles */
+        body.dark-mode {
+            background-color: #333;
+            color: #f4f4f9;
+        }
+
+        header.dark-mode {
+            background-color: #444;
+        }
+
+        .video-item.dark-mode {
+            background-color: #555;
+            border-color: #d5006d;
+        }
+
+        .modal-content.dark-mode {
+            background-color: #444;
+        }
+
+        .payment-form input.dark-mode {
+            border: 2px solid #d5006d;
+            background-color: #555;
+            color: white;
+        }
+
+        .payment-form button.dark-mode {
+            background-color: #d5006d;
+        }
+
+        .payment-form button.dark-mode:hover {
+            background-color: #b0003a;
+        }
+
+        .theme-switch span {
+            color: white;
+            font-size: 18px;
+        }
+
     </style>
 </head>
 <body>
@@ -157,6 +202,9 @@
         <h1>Education Platform</h1>
         <div class="cart">
             <button id="cartButton">Cart (<span id="cartCount">0</span>)</button>
+        </div>
+        <div class="theme-switch">
+            <span id="themeToggle">🌙</span>
         </div>
     </header>
     <main>
@@ -236,34 +284,28 @@
             });
         }
 
-        // Function to add video to cart
-        function addToCart(videoId) {
-            const video = videos.find(v => v.id === videoId);
-            cart.push(video);
-            document.getElementById('cartCount').innerText = cart.length;
-            alert(`${video.title} added to cart!`);
+        // Add video to cart
+        function addToCart(id) {
+            const video = videos.find(v => v.id === id);
+            if (video) {
+                cart.push(video);
+                document.getElementById('cartCount').innerText = cart.length;
+                alert(`${video.title} has been added to your cart!`);
+            }
         }
 
-        // Function to display cart
+        // Display cart
         function displayCart() {
             const cartItems = document.getElementById('cartItems');
-            cartItems.innerHTML = '';
+            cartItems.innerHTML = ''; // Clear previous items
             cart.forEach((item, index) => {
-                cartItems.innerHTML += `<p>${item.title} - $${item.price} <button onclick="removeFromCart(${index})">Remove</button></p>`;
+                cartItems.innerHTML += `<p>${item.title} - $${item.price}</p>`;
             });
         }
 
-        // Function to remove video from cart
-        function removeFromCart(index) {
-            cart.splice(index, 1);
-            document.getElementById('cartCount').innerText = cart.length;
-            displayCart();
-        }
-
-        // Modal functionality for cart
-        const cartModal = document.getElementById('cartModal');
         const cartButton = document.getElementById('cartButton');
-        const closeCartButton = document.getElementsByClassName('close')[0];
+        const cartModal = document.getElementById('cartModal');
+        const closeCartButton = cartModal.getElementsByClassName('close')[0];
 
         cartButton.onclick = function() {
             displayCart();
@@ -315,6 +357,22 @@
             } else {
                 alert('Please fill in all fields!');
             }
+        }
+
+        // Theme toggle functionality
+        const themeToggle = document.getElementById('themeToggle');
+        themeToggle.onclick = function() {
+            document.body.classList.toggle('dark-mode');
+            document.querySelector('header').classList.toggle('dark-mode');
+            const videoItems = document.querySelectorAll('.video-item');
+            videoItems.forEach(item => item.classList.toggle('dark-mode'));
+            const modalContents = document.querySelectorAll('.modal-content');
+            modalContents.forEach(content => content.classList.toggle('dark-mode'));
+            const paymentInputs = document.querySelectorAll('.payment-form input');
+            paymentInputs.forEach(input => input.classList.toggle('dark-mode'));
+            const paymentButton = document.querySelector('.payment-form button');
+            paymentButton.classList.toggle('dark-mode');
+            themeToggle.innerText = document.body.classList.contains('dark-mode') ? '🌞' : '🌙'; // Change icon
         }
 
         // Initial video display
