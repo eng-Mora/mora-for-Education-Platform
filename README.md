@@ -237,19 +237,33 @@
                 <input type="text" id="cardName" required>
 
                 <label for="cardNumber">Card Number:</label>
-                <input type="text" id="cardNumber" required>
+                <input type="text" id="cardNumber" maxlength="16" required oninput="this.value = this.value.replace(/[^0-9]/g, '');">
+
 
                 <label for="expirationDate">Expiration Date (MM/YY):</label>
                 <input type="text" id="expirationDate" required>
 
                 <label for="cvv">CVV:</label>
-                <input type="text" id="cvv" required>
+                <input type="text" id="cvv" maxlength="3" required oninput="this.value = this.value.replace(/[^0-9]/g, '');">
+
 
                 <label for="billingAddress">Billing Address:</label>
-                <input type="text" id="billingAddress" value="123 Market St." required>
+                <input type="text" id="billingAddress" value="" required>
 
                 <label for="country">Country:</label>
-                <input type="text" id="country" value="United States" required>
+                <select id="country" required>
+                   <option value="United States">United States</option>
+                   <option value="Canada">Canada</option>
+                   <option value="United Kingdom">United Kingdom</option>
+                   <option value="Australia">Australia</option>
+                   <option value="India">India</option>
+                   <option value="Germany">Germany</option>
+                   <option value="France">France</option>
+                   <option value="China">China</option>
+                   <option value="Japan">Japan</option>
+                   <option value="Brazil">Brazil</option>
+</select>
+
 
                 <label for="postalCode">Postal Code:</label>
                 <input type="text" id="postalCode" required>
